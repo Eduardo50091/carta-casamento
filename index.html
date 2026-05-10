@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASAMENTO</title>
+</head>
+<style>
+        /* ========================================= */
+    /* RESET */
+    /* ========================================= */
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+    /* ========================================= */
+    /* BODY */
+    /* ========================================= */
+    body{
+        height:100vh;
+        overflow:hidden;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:radial-gradient(circle at top,#3a2a2a,#120d0d 70%);
+        font-family:'Cormorant Garamond',serif;
+    }
+
+    /* ========================================= */
+    /* CONTAINER */
+    /* ========================================= */
+
+    .container{
+        position:relative;
+        width:350px;
+        height:250px;
+        perspective:1200px;
+    }
+
+    /* ========================================= */
+    /* ENVELOPE */
+    /* ========================================= */
+
+    .envelope{
+      position:absolute;
+      width:100%;
+      height:100%;
+      bottom:0;
+    }
+
+    /* ========================================= */
+    /* BASE TRASEIRA */
+    /* ========================================= */
+    /*
+       Esta é a parte de trás
+       do envelope.
+    */
+
+    .base{
+        position:absolute;
+        width:100%;
+        height:100%;
+        background:#f5e6d3;
+        border-radius:0 0 12px 12px;
+        z-index:1;
+        box-shadow:0 15px 40px rgba(0,0,0,.5);
+    }
+
+    /* ========================================= */
+    /* TAMPA */
+    /* ========================================= */
+
+    .flap{
+        position:absolute;
+        width:100%;
+        height:100%;
+        background:#e8d3ba;
+
+      /*Cria triângulo*/
+      clip-path:polygon(0 0,50% 60%,100% 0);
+
+      /*Eixo da rotação*/
+      transform-origin:top;
+      transition:1.5s ease;
+      z-index:4;
+    }
+
+    /* ========================================= */
+    /* WRAPPER */
+    /* ========================================= */
+    /*
+       Este wrapper esconde
+       o início da carta.
+    */
+
+    .letter-wrapper{
+        position:absolute;
+        width:100%;
+        height:100%;
+        overflow:hidden;
+    }
+
+    /* ========================================= */
+    /* CARTA */
+    /* ========================================= */
+
+    .letter{
+        opacity: 0;
+        position:absolute;
+        width:90%;
+        height:500px;
+        left:4%;
+        bottom:0;
+        background:#fffdf9;
+        border-radius:8px;
+        padding:35px 25px;
+        text-align:center;
+        color:#2d1d1d;
+        /*Carta começa escondida*/
+        transform:translateY(95%);
+        transition:1.5s ease;
+        z-index:5;
+        box-shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+
+    /* ========================================= */
+    /* FRENTE DO ENVELOPE */
+    /* ========================================= */
+    /*
+       Esta camada cobre
+       a parte inferior
+       da carta.
+
+       Isso cria o efeito
+       de carta saindo.
+    */
+
+    .front{
+        position:absolute;
+        width:100%;
+        height:65%;
+        bottom:0;
+        background:#f5e6d3;
+        border-radius:0 0 12px 12px;
+        z-index:1;
+    }
+
+    /* ========================================= */
+    /* TÍTULOS */
+    /* ========================================= */
+
+    .letter h1{
+        font-family:'Great Vibes',cursive;
+        font-size:52px;
+        margin-bottom:10px;
+        color:#7a1f1f;
+    }
+
+    .letter h2{
+        font-size:28px;
+        margin-bottom:15px;
+        font-weight:600;
+    }
+
+    /* ========================================= */
+    /* PARÁGRAFOS */
+    /* ========================================= */
+
+    .letter p{
+        font-size:20px;
+        line-height:1.5;
+        margin-bottom:12px;
+    }
+
+    /* ========================================= */
+    /* DATA */
+    /* ========================================= */
+
+    .date{
+        margin-top:15px;
+        font-size:24px;
+        font-weight:600;
+        color:#7a1f1f;
+    }
+
+    /* ========================================= */
+    /* SELO */
+    /* ========================================= */
+
+    .seal{
+        position:absolute;
+        width:80px;
+        height:80px;
+        top:65px;
+        left:50%;
+        transform:translateX(-50%);
+        background:radial-gradient(circle,#b30000,#6d0000);
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        cursor:pointer;
+        z-index:10;
+        transition:.4s;
+        box-shadow:0 5px 20px rgba(0,0,0,.4);
+    }
+
+    /* Hover */
+
+    .seal:hover{
+        transform:translateX(-50%) scale(1.05);
+    }
+
+    /* Coração */
+    .seal::before{
+        content:"❤";
+        font-size:30px;
+        color:#f5d0d0;
+    }
+
+    /* ========================================= */
+    /* ABERTURA */
+    /* ========================================= */
+
+    /*
+      Tampa abre
+    */
+
+    .open .flap{
+        transform:rotateX(180deg);
+    }
+
+    .open .front{
+        z-index:6;
+    }
+    /*
+      Carta sobe
+    */
+    .open .letter{
+        transform:translateY(-25%);
+    }
+
+    /* ========================================= */
+    /* TEXTO INFERIOR */
+    /* ========================================= */
+
+    .fade-text{
+        position:absolute;
+        bottom:-60px;
+        width:100%;
+        text-align:center;
+        color:#d9c3aa;
+        letter-spacing:2px;
+        font-size:16px;
+        animation:pulse 2s infinite;
+    }
+
+    /* ========================================= */
+    /* ANIMAÇÃO */
+    /* ========================================= */
+
+    @keyframes pulse{
+      0%{
+        opacity:.3;
+      }
+
+      50%{
+        opacity:1;
+      }
+
+      100%{
+        opacity:.3;
+      }
+    }
+
+    /* ========================================= */
+    /* RESPONSIVO */
+    /* ========================================= */
+
+    @media(max-width:450px){
+
+      .container{
+        width:320px;
+        height:220px;
+      }
+
+      .letter h1{
+        font-size:42px;
+      }
+
+      .letter h2{
+        font-size:24px;
+      }
+
+      .letter p{
+        font-size:18px;
+      }
+    }
+</style>
+<body>
+    <div class="container" id="container">
+        <div class="flap" id="corpo"></div>
+        <div class="base" id="corpo"></div>
+        <div class="letter-wrapper" id="corpo"></div>
+        <div class="letter" id="carta">
+            <h1>Maria & João</h1>
+            <h2>Você está convidado</h2>
+            <p>Para celebrar conosco
+            o dia mais especial
+            de nossas vidas.</p>
+            <p>Esperamos você para viver
+            esse momento inesquecível.</p>
+            <div class="date">12 • Dezembro • 2026</div>
+        </div>
+        
+         
+        <!-- FRENTE -->
+        <div class="front" id="corpo"></div>
+        <!-- SELO -->
+        <div class="seal" id="seal"></div>
+        <!-- TEXTO -->
+        <div class="fade-text">Clique no selo</div>
+    </div>
+    <script>
+        /*Seleciona selo*/
+        const seal = document.getElementById('seal');
+        const carta = document.getElementById('carta')
+        const container = document.getElementById('container');
+
+        /*Clique no selo*/
+        seal.addEventListener(
+        'click',() => {
+
+            /*Ativa abertura*/
+            container.classList.add('open');
+            container.style.top = "150px";
+            carta.style.opacity = '1';
+            /*Esconde selo*/
+            seal.style.opacity = '0';
+
+            /*Impede novos cliques*/
+            seal.style.pointerEvents = 'none';
+        }
+        );
+    </script>
+</body>
+</html>
