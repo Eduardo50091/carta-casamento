@@ -1,348 +1,486 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Define a codificação de caracteres -->
     <meta charset="UTF-8">
+
+    <!-- Faz o site se adaptar a dispositivos móveis -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CASAMENTO</title>
+
+
+    <!-- Título da aba do navegador -->
+    <title>Convite</title>
 </head>
 <style>
-        /* ========================================= */
-    /* RESET */
-    /* ========================================= */
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
+    /* Fundo da página */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(21, 10, 24);
+}
+
+/* Envelope principal */
+#envelope {
+    position: relative;
+    width: 280px;
+    height: 380px;
+
+    /* Bordas arredondadas inferiores */
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+
+
+    /* Distância do topo */
+    top: 300px;
+
+    /* Cor principal do envelope */
+    background-color: rgb(64, 36, 71);
+
+    /* Sombra */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+    cursor: pointer;
+
+    transition: transform 0.6s ease;
+}
+
+.open .letter {
+    transform: translateY(-260px);
+}
+
+.open {
+    transform: translateY(80px);
+}
+
+/* Elementos frontais do envelope */
+.front {
+    position: absolute;
+    width: 0;
+    height: 0;
+
+    /* Define ordem de sobreposição */
+    z-index: 3;
+}
+
+/* Aba superior */
+.flap {
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-bottom: 82px solid transparent;
+
+    /* Triângulo superior */
+    border-top: 98px solid rgb(64, 36, 71);
+
+    /* Ponto de rotação */
+    transform-origin: top;
+}
+
+/* Parte frontal do envelope */
+.pocket {
+    border-left: 140px solid rgb(123, 74, 136);
+    border-right: 140px solid rgb(123, 74, 136);
+    border-bottom: 290px solid rgb(123, 74, 136);
+    border-top: 90px solid transparent;
+
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+/* Carta */
+.letter {
+    position: relative;
+    /*mudar cor da carta aqui para ficar natural*/
+    background-color: rgba(247, 241, 235);
+
+    width: 90%;
+    height: 90%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    top: 5%;
+
+    border-radius: 6px;
+
+    box-shadow: 0 2px 26px rgba(0,0,0,.12);
+}
+
+.letter img {
+    width: 100%;
+    height: 100%;
+    height: 300px;
+    object-fit:cover;
+}
+
+/* Gradiente decorativo da carta */
+/*.letter:after {
+    content: '';
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background-image: linear-gradient(
+        180deg,
+        rgba(255,255,255,0) 25%,
+        rgba(215,227,239,0.7) 55%,
+        rgba(215,227,239,1) 100%
+    );
+}*/
+
+/* Linhas que simulam texto */
+.words {
+    position: absolute;
+
+    left: 10%;
+
+    width: 80%;
+    height: 14%;
+
+    background-color: #eeeff0;
+}
+
+/* Primeira linha menor */
+.words.line1 {
+    top: 15%;
+    width: 20%;
+    height: 7%;
+}
+
+.words.line2 {
+    top: 30%;
+}
+
+.words.line3 {
+    top: 50%;
+}
+
+.words.line4 {
+    top: 70%;
+}
+
+/* Estado ABERTO */
+.open .flap {
+
+    /* Gira a aba para trás */
+    transform: rotateX(180deg);
+
+    transition: transform 0.4s ease,
+                z-index 0.6s;
+
+    z-index: 1;
+}
+
+/* Estado FECHADO */
+.close .flap {
+
+    transform: rotateX(0deg);
+
+    transition: transform 0.4s 0.6s ease,
+                z-index 1s;
+
+    z-index: 5;
+}
+
+/* Carta fechada */
+.close .letter {
+    transform: translateY(0px);
+
+    transition: transform 0.4s ease,
+                z-index 1s;
+
+    z-index: 1;
+}
+
+/* Carta saindo do envelope */
+.open .letter {
+
+    transition: transform 0.4s 0.6s ease,
+                z-index 0.6s;
+
+    z-index: 2;
+}
+
+
+/* Área dos corações */
+.hearts {
+    position: absolute;
+
+    top: 90px;
+    left: 0;
+    right: 0;
+
+    z-index: 2;
+}
+
+/* Estrutura básica do coração */
+.heart {
+    position: absolute;
+
+    bottom: 0;
+    right: 10%;
+}
+
+/* Metade esquerda e direita do coração */
+.heart:before,
+.heart:after {
+
+    position: absolute;
+    content: '';
+
+    left: 50px;
+    top: 0;
+
+    width: 50px;
+    height: 80px;
+
+    background: #d00000;
+
+    border-radius: 50px 50px 0 0;
+
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+/* Segunda metade */
+.heart:after {
+    left: 0;
+
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+/* Esconde corações quando fechado */
+.close .heart {
+    opacity: 0;
+    animation: none;
+}
+
+/* Primeiro coração */
+.a1 {
+    left: 20%;
+    transform: scale(0.6);
+
+    opacity: 1;
+
+    animation:
+        slideUp 4s linear 1,
+        sideSway 2s ease-in-out 4 alternate;
+
+    animation-fill-mode: forwards;
+    animation-delay: 0.7s;
+
+}
+
+/* Segundo coração */
+.a2 {
+    left: 55%;
+    transform: scale(1);
+
+    opacity: 1;
+
+    animation:
+        slideUp 5s linear 1,
+        sideSway 4s ease-in-out 2 alternate;
+
+    animation-fill-mode: forwards;
+    animation-delay: 0.7s;
+
+}
+
+/* Terceiro coração */
+.a3 {
+    left: 10%;
+    transform: scale(0.8);
+
+    opacity: 1;
+
+    animation:
+        slideUp 7s linear 1,
+        sideSway 2s ease-in-out 6 alternate;
+
+    animation-fill-mode: forwards;
+    animation-delay: 0.7s;
+
+}
+
+/* Faz os corações subirem */
+@keyframes slideUp {
+    0% {
+        top: 0;
+        opacity: 1;
     }
-    /* ========================================= */
-    /* BODY */
-    /* ========================================= */
-    body{
-        height:100vh;
-        overflow:hidden;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background:radial-gradient(circle at top,#3a2a2a,#120d0d 70%);
-        font-family:'Cormorant Garamond',serif;
+
+    80% {
+        opacity: 1;
     }
 
-    /* ========================================= */
-    /* CONTAINER */
-    /* ========================================= */
-
-    .container{
-        position:relative;
-        width:350px;
-        height:250px;
-        perspective:1200px;
-    }
-
-    /* ========================================= */
-    /* ENVELOPE */
-    /* ========================================= */
-
-    .envelope{
-      position:absolute;
-      width:100%;
-      height:100%;
-      bottom:0;
-    }
-
-    /* ========================================= */
-    /* BASE TRASEIRA */
-    /* ========================================= */
-    /*
-       Esta é a parte de trás
-       do envelope.
-    */
-
-    .base{
-        position:absolute;
-        width:100%;
-        height:100%;
-        background:#f5e6d3;
-        border-radius:0 0 12px 12px;
-        z-index:1;
-        box-shadow:0 15px 40px rgba(0,0,0,.5);
-    }
-
-    /* ========================================= */
-    /* TAMPA */
-    /* ========================================= */
-
-    .flap{
-        position:absolute;
-        width:100%;
-        height:100%;
-        background:#e8d3ba;
-
-      /*Cria triângulo*/
-      clip-path:polygon(0 0,50% 60%,100% 0);
-
-      /*Eixo da rotação*/
-      transform-origin:top;
-      transition:1.5s ease;
-      z-index:4;
-    }
-
-    /* ========================================= */
-    /* WRAPPER */
-    /* ========================================= */
-    /*
-       Este wrapper esconde
-       o início da carta.
-    */
-
-    .letter-wrapper{
-        position:absolute;
-        width:100%;
-        height:100%;
-        overflow:hidden;
-    }
-
-    /* ========================================= */
-    /* CARTA */
-    /* ========================================= */
-
-    .letter{
+    100% {
+        top: -600px;
         opacity: 0;
-        position:absolute;
-        width:90%;
-        height:500px;
-        left:4%;
-        bottom:0;
-        background:#fffdf9;
-        border-radius:8px;
-        padding:35px 25px;
-        text-align:center;
-        color:#2d1d1d;
-        /*Carta começa escondida*/
-        transform:translateY(95%);
-        transition:1.5s ease;
-        z-index:5;
-        box-shadow:0 10px 30px rgba(0,0,0,.25);
     }
+}
 
-    /* ========================================= */
-    /* FRENTE DO ENVELOPE */
-    /* ========================================= */
-    /*
-       Esta camada cobre
-       a parte inferior
-       da carta.
 
-       Isso cria o efeito
-       de carta saindo.
-    */
 
-    .front{
-        position:absolute;
-        width:100%;
-        height:65%;
-        bottom:0;
-        background:#f5e6d3;
-        border-radius:0 0 12px 12px;
-        z-index:1;
-    }
 
-    /* ========================================= */
-    /* TÍTULOS */
-    /* ========================================= */
+/* Área ocupada pelo envelope */
+.envelope-wrapper {
+    height: 380px;
+}
 
-    .letter h1{
-        font-family:'Great Vibes',cursive;
-        font-size:52px;
-        margin-bottom:10px;
-        color:#7a1f1f;
-    }
+/* Centraliza os botões */
+.reset {
+    text-align: center;
+}
+/* Estilo dos botões */
+.reset button {
 
-    .letter h2{
-        font-size:28px;
-        margin-bottom:15px;
-        font-weight:600;
-    }
+    font-weight: 800;
 
-    /* ========================================= */
-    /* PARÁGRAFOS */
-    /* ========================================= */
+    transition: all 0.1s linear;
 
-    .letter p{
-        font-size:20px;
-        line-height:1.5;
-        margin-bottom:12px;
-    }
+    appearance: none;
+    -webkit-appearance: none;
 
-    /* ========================================= */
-    /* DATA */
-    /* ========================================= */
+    background-color: transparent;
 
-    .date{
-        margin-top:15px;
-        font-size:24px;
-        font-weight:600;
-        color:#7a1f1f;
-    }
+    border: solid 2px #0077b2;
+    border-radius: 4px;
 
-    /* ========================================= */
-    /* SELO */
-    /* ========================================= */
+    color: #0077b2;
 
-    .seal{
-        position:absolute;
-        width:80px;
-        height:80px;
-        top:65px;
-        left:50%;
-        transform:translateX(-50%);
-        background:radial-gradient(circle,#b30000,#6d0000);
-        border-radius:50%;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        cursor:pointer;
-        z-index:10;
-        transition:.4s;
-        box-shadow:0 5px 20px rgba(0,0,0,.4);
-    }
+    display: inline-block;
 
-    /* Hover */
+    font-size: 14px;
 
-    .seal:hover{
-        transform:translateX(-50%) scale(1.05);
-    }
+    text-transform: uppercase;
 
-    /* Coração */
-    .seal::before{
-        content:"❤";
-        font-size:30px;
-        color:#f5d0d0;
-    }
+    margin: 5px;
+    padding: 10px;
 
-    /* ========================================= */
-    /* ABERTURA */
-    /* ========================================= */
+    line-height: 1em;
 
-    /*
-      Tampa abre
-    */
+    text-decoration: none;
 
-    .open .flap{
-        transform:rotateX(180deg);
-    }
+    min-width: 120px;
 
-    .open .front{
-        z-index:6;
-    }
-    /*
-      Carta sobe
-    */
-    .open .letter{
-        transform:translateY(-25%);
-    }
+    outline: none;
+}
 
-    /* ========================================= */
-    /* TEXTO INFERIOR */
-    /* ========================================= */
-
-    .fade-text{
-        position:absolute;
-        bottom:-60px;
-        width:100%;
-        text-align:center;
-        color:#d9c3aa;
-        letter-spacing:2px;
-        font-size:16px;
-        animation:pulse 2s infinite;
-    }
-
-    /* ========================================= */
-    /* ANIMAÇÃO */
-    /* ========================================= */
-
-    @keyframes pulse{
-      0%{
-        opacity:.3;
-      }
-
-      50%{
-        opacity:1;
-      }
-
-      100%{
-        opacity:.3;
-      }
-    }
-
-    /* ========================================= */
-    /* RESPONSIVO */
-    /* ========================================= */
-
-    @media(max-width:450px){
-
-      .container{
-        width:320px;
-        height:220px;
-      }
-
-      .letter h1{
-        font-size:42px;
-      }
-
-      .letter h2{
-        font-size:24px;
-      }
-
-      .letter p{
-        font-size:18px;
-      }
-    }
+/* Efeito ao passar o mouse */
+.reset button:hover {
+    background-color: #0077b2;
+    color: white;
+}
 </style>
 <body>
-    <div class="container" id="container">
-        <div class="flap" id="corpo"></div>
-        <div class="base" id="corpo"></div>
-        <div class="letter-wrapper" id="corpo"></div>
-        <div class="letter" id="carta">
-            <h1>Maria & João</h1>
-            <h2>Você está convidado</h2>
-            <p>Para celebrar conosco
-            o dia mais especial
-            de nossas vidas.</p>
-            <p>Esperamos você para viver
-            esse momento inesquecível.</p>
-            <div class="date">12 • Dezembro • 2026</div>
+
+    <!-- Container principal do envelope -->
+    <div class="envelope-wrapper">
+
+        <!-- Envelope fechado inicialmente -->
+        <div id="envelope" class="close">
+
+            <!-- Aba superior do envelope -->
+            <div class="front flap"></div>
+
+            <!-- Parte frontal do envelope -->
+            <div class="front pocket"></div>
+
+            <!-- Carta dentro do envelope -->
+            <div class="letter">
+
+                <!-- Linhas decorativas simulando texto 
+                <div class="words line1"></div>
+                <div class="words line2"></div>
+                <div class="words line3"></div>
+                <div class="words line4"></div> -->
+                <img src="file_00000000d2bc71fbb4234d86be642a50.png" alt="">
+
+            </div>
+
+            <!-- Grupo de corações animados -->
+            <div class="hearts">
+
+                <!-- Coração 1 -->
+                <div class="heart a1"></div>
+
+                <!-- Coração 2 -->
+                <div class="heart a2"></div>
+
+                <!-- Coração 3 -->
+                <div class="heart a3"></div>
+
+            </div>
         </div>
-        
-         
-        <!-- FRENTE -->
-        <div class="front" id="corpo"></div>
-        <!-- SELO -->
-        <div class="seal" id="seal"></div>
-        <!-- TEXTO -->
-        <div class="fade-text">Clique no selo</div>
     </div>
+
+    <!-- Área dos botões 
+    <div class="reset">
+
+        <button id="open">Open</button>
+
+        <button id="reset">Reset</button>
+
+    </div> -->
+
+    <!-- Importa a biblioteca jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Importa o JavaScript personalizado -->
     <script>
-        /*Seleciona selo*/
-        const seal = document.getElementById('seal');
-        const carta = document.getElementById('carta')
-        const container = document.getElementById('container');
+        // Executa quando toda a página terminar de carregar
+$(document).ready(function () {
 
-        /*Clique no selo*/
-        seal.addEventListener(
-        'click',() => {
+    // Seleciona o envelope
+    var envelope = $('#envelope');
 
-            /*Ativa abertura*/
-            container.classList.add('open');
-            container.style.top = "150px";
-            carta.style.opacity = '1';
-            /*Esconde selo*/
-            seal.style.opacity = '0';
+    // Seleciona o botão Open
+    var btn_open = $("#open");
 
-            /*Impede novos cliques*/
-            seal.style.pointerEvents = 'none';
-        }
-        );
+    // Seleciona o botão Reset
+    var btn_reset = $('#reset');
+
+    // Ao clicar no envelope
+    envelope.click(function () {
+        open();
+    });
+
+    // Ao clicar no botão Open
+    btn_open.click(function () {
+        open();
+    });
+
+    // Ao clicar no botão Reset
+    btn_reset.click(function () {
+        close();
+    });
+
+    // Função que abre o envelope
+    function open() {
+
+        // Adiciona a classe open
+        envelope.addClass('open')
+
+            // Remove a classe close
+            .removeClass('close');
+    }
+
+    // Função que fecha o envelope
+    function close() {
+
+        // Adiciona a classe close
+        envelope.addClass('close')
+
+            // Remove a classe open
+            .removeClass('open');
+    }
+});
     </script>
 </body>
 </html>
