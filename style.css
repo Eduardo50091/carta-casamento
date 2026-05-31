@@ -176,6 +176,7 @@ body {
     position: absolute;
     bottom: 0;
     right: 10%;
+    pointer-events: none;
 }
 
 /* Metade esquerda e direita do coração */
