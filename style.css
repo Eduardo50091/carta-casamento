@@ -1,8 +1,6 @@
-/* Fundo da página */
 *{
-    margin: 0;
     padding: 0;
-    overflow: hidden;
+    margin: 0;
 }
 
 body {
@@ -15,23 +13,20 @@ body {
 
 /* Envelope principal */
 #envelope {
-    position: relative;
     width: 280px;
     height: 380px;
-
+    cursor: pointer;
+    position: relative;
     /* Bordas arredondadas inferiores */
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
-
-
+    /*distancia da carta para o topo*/
+    top: 300px;
     /* Cor principal do envelope */
     background-color: rgb(64, 36, 71);
-
     /* Sombra */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-
-    cursor: pointer;
-
+    /*transição para a carta descer*/
     transition: transform 0.6s ease;
 }
 
@@ -48,7 +43,6 @@ body {
     position: absolute;
     width: 0;
     height: 0;
-
     /* Define ordem de sobreposição */
     z-index: 3;
 }
@@ -58,10 +52,8 @@ body {
     border-left: 140px solid transparent;
     border-right: 140px solid transparent;
     border-bottom: 82px solid transparent;
-
     /* Triângulo superior */
     border-top: 98px solid rgb(64, 36, 71);
-
     /* Ponto de rotação */
     transform-origin: top;
 }
@@ -70,9 +62,8 @@ body {
 .pocket {
     border-left: 140px solid rgb(123, 74, 136);
     border-right: 140px solid rgb(123, 74, 136);
-    border-bottom: 290px solid rgb(123, 74, 136);
+    border-bottom: 560px solid rgb(123, 74, 136);
     border-top: 90px solid transparent;
-
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
 }
@@ -82,54 +73,31 @@ body {
     position: relative;
     /*mudar cor da carta aqui para ficar natural*/
     background-color: rgba(247, 241, 235);
-
-    width: 90%;
-    height: 90%;
-
+    width: 250px;
+    height: 600px;
     margin-left: auto;
     margin-right: auto;
-
     top: 5%;
-
-    border-radius: 6px;
-
+    border: none;
+    border-radius: 10px;
     box-shadow: 0 2px 26px rgba(0,0,0,.12);
+    transform-origin: center center;
 }
 
 .letter img {
     width: 100%;
     height: 100%;
-    height: 300px;
     object-fit:cover;
+    border: none;
+    border-radius: 10px;
 }
-
-/* Gradiente decorativo da carta */
-/*.letter:after {
-    content: '';
-    position: absolute;
-
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    background-image: linear-gradient(
-        180deg,
-        rgba(255,255,255,0) 25%,
-        rgba(215,227,239,0.7) 55%,
-        rgba(215,227,239,1) 100%
-    );
-}*/
 
 /* Linhas que simulam texto */
 .words {
     position: absolute;
-
     left: 10%;
-
     width: 80%;
     height: 14%;
-
     background-color: #eeeff0;
 }
 
@@ -154,10 +122,8 @@ body {
 
 /* Estado ABERTO */
 .open .flap {
-
     /* Gira a aba para trás */
     transform: rotateX(180deg);
-
     transition: transform 0.4s ease,
                 z-index 0.6s;
 
@@ -166,50 +132,48 @@ body {
 
 /* Estado FECHADO */
 .close .flap {
-
     transform: rotateX(0deg);
-
     transition: transform 0.4s 0.6s ease,
                 z-index 1s;
-
     z-index: 5;
 }
 
 /* Carta fechada */
 .close .letter {
     transform: translateY(0px);
-
     transition: transform 0.4s ease,
                 z-index 1s;
-
     z-index: 1;
 }
 
 /* Carta saindo do envelope */
 .open .letter {
-
     transition: transform 0.4s 0.6s ease,
                 z-index 0.6s;
-
     z-index: 2;
 }
 
+.zoom .letter {
+    scale: 1.5;
+    transform: translateY(-120px);
+    transition: transform 0.4s 0.6s ease,
+                z-index 0.6s;
+    z-index: 99;
+}
 
-/* Área dos corações */
+
+/* Área dos corações------------------------------------------------------------------------------*/
 .hearts {
     position: absolute;
-
     top: 90px;
     left: 0;
     right: 0;
-
     z-index: 2;
 }
 
 /* Estrutura básica do coração */
 .heart {
     position: absolute;
-
     bottom: 0;
     right: 10%;
 }
@@ -217,20 +181,14 @@ body {
 /* Metade esquerda e direita do coração */
 .heart:before,
 .heart:after {
-
     position: absolute;
     content: '';
-
     left: 50px;
     top: 0;
-
     width: 50px;
     height: 80px;
-
     background: #d00000;
-
     border-radius: 50px 50px 0 0;
-
     transform: rotate(-45deg);
     transform-origin: 0 100%;
 }
@@ -238,7 +196,6 @@ body {
 /* Segunda metade */
 .heart:after {
     left: 0;
-
     transform: rotate(45deg);
     transform-origin: 100% 100%;
 }
@@ -253,9 +210,7 @@ body {
 .a1 {
     left: 20%;
     transform: scale(0.6);
-
     opacity: 1;
-
     animation:
         slideUp 4s linear 1,
         sideSway 2s ease-in-out 4 alternate;
@@ -269,9 +224,7 @@ body {
 .a2 {
     left: 55%;
     transform: scale(1);
-
     opacity: 1;
-
     animation:
         slideUp 5s linear 1,
         sideSway 4s ease-in-out 2 alternate;
@@ -285,13 +238,10 @@ body {
 .a3 {
     left: 10%;
     transform: scale(0.8);
-
     opacity: 1;
-
     animation:
         slideUp 7s linear 1,
         sideSway 2s ease-in-out 6 alternate;
-
     animation-fill-mode: forwards;
     animation-delay: 0.7s;
 
@@ -316,53 +266,3 @@ body {
 
 
 
-
-/* Área ocupada pelo envelope */
-.envelope-wrapper {
-    height: 380px;
-}
-
-/* Centraliza os botões */
-.reset {
-    text-align: center;
-}
-/* Estilo dos botões */
-.reset button {
-
-    font-weight: 800;
-
-    transition: all 0.1s linear;
-
-    appearance: none;
-    -webkit-appearance: none;
-
-    background-color: transparent;
-
-    border: solid 2px #0077b2;
-    border-radius: 4px;
-
-    color: #0077b2;
-
-    display: inline-block;
-
-    font-size: 14px;
-
-    text-transform: uppercase;
-
-    margin: 5px;
-    padding: 10px;
-
-    line-height: 1em;
-
-    text-decoration: none;
-
-    min-width: 120px;
-
-    outline: none;
-}
-
-/* Efeito ao passar o mouse */
-.reset button:hover {
-    background-color: #0077b2;
-    color: white;
-}
