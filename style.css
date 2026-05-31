@@ -1,4 +1,10 @@
 /* Fundo da página */
+*{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -17,9 +23,6 @@ body {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
 
-
-    /* Distância do topo */
-    top: 190px;
 
     /* Cor principal do envelope */
     background-color: rgb(64, 36, 71);
